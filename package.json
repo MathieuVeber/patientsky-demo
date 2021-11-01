@@ -1,0 +1,9 @@
+{
+  "name": "patientsky-demo",
+  "version": "1.0.0",
+  "description": "List available times for a meeting with several participants",
+  "main": "index.js",
+  "repository": "https://github.com/MathieuVeber/patientsky-demo.git",
+  "author": "Mathieu Veber <veberm8@gmail.com>",
+  "license": "MIT"
+}
