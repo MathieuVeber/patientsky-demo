@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+"use strict";
+
+const yargs = require("yargs");
+const findAvailableTime = require("../src");
+const DateInterval = require("../src/models/DateInterval");
+
+// Parsing arguments
+const args = yargs
+  .options({
+    ids: {
+      alias: "i",
+      describe: "List of calendars ids to be searched",
+      require: true,
+      type: "array",
+    },
+    duration: {
+      alias: "d",
+      default: 60,
+      describe: "Duration in minutes of the meeting",
+      type: "number",
+    },
+    period: {
+      alias: "p",
+      describe:
+        "A period within to find availability (Format: <ISO8601>/<ISO8601> )",
+      require: true,
+      type: "string",
+    },
+  })
+  .strictOptions(true)
+  .usage("USAGE: yarn start -i <ids> -p <period>")
+  .parse();
+
+if (!Number.isInteger(args.duration)) {
+  console.error(
+    "Error: Duration must be an integer representing an amount of minutes\n"
+  );
+  yargs.showHelp();
+  process.exit(1);
+}
+
+let period;
+try {
+  period = new DateInterval(args.period);
+} catch (error) {
+  console.error(
+    "Error: Period must be given following ISO 8601 specification\n"
+  );
+  yargs.showHelp();
+  process.exit(1);
+}
+
+findAvailableTime(args.ids, args.duration, period);
